@@ -1,0 +1,11 @@
+.expand {
+  margin-left: auto;
+}
+
+.expanded {
+  transform: rotate(180deg);
+}
+
+.title {
+  font-size: 1rem;
+}
