@@ -6,23 +6,44 @@ import {
   Collapse,
   IconButton,
 } from '@material-ui/core';
+import { CloudDownload } from '@material-ui/icons';
 import CheckBoxOutlineBlankOutlined from '@material-ui/icons/CheckBoxOutlineBlankOutlined';
 import CheckBoxOutlined from '@material-ui/icons/CheckBoxOutlined';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import classNames from 'classnames';
 import { formatDistanceToNow } from 'date-fns';
 import React, { useState } from 'react';
+import { DownloadQueueItem } from '../../reducers/types';
 import { Post as PostType } from '../../types/types';
 import styles from './Post.css';
 
 type Props = {
   post: PostType;
   setPostIsRead: (postId: PostType['id'], isRead: boolean) => void;
+  addToDownloadQueue: (items: DownloadQueueItem[]) => void;
+  processDownloadQueue: () => void;
 };
 
 export default function Post(props: Props) {
-  const { post, setPostIsRead } = props;
+  const {
+    post,
+    setPostIsRead,
+    addToDownloadQueue,
+    processDownloadQueue,
+  } = props;
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const download = () => {
+    addToDownloadQueue([
+      {
+        postId: post.id,
+        url: post.url,
+        title: post.title,
+        status: 'queued',
+      },
+    ]);
+    processDownloadQueue();
+  };
 
   return (
     <Card>
@@ -47,6 +68,9 @@ export default function Post(props: Props) {
           onClick={() => setIsExpanded(!isExpanded)}
         >
           <ExpandMoreIcon />
+        </IconButton>
+        <IconButton onClick={download}>
+          <CloudDownload />
         </IconButton>
       </CardActions>
       <Collapse in={isExpanded}>

@@ -5,6 +5,7 @@ import posts from './posts';
 import feeds from './feeds';
 import settings from './settings';
 import refresh from './refresh';
+import download from './download';
 
 export default function createRootReducer(history: History) {
   return combineReducers({
@@ -13,5 +14,6 @@ export default function createRootReducer(history: History) {
     feeds,
     settings,
     refresh,
+    download,
   });
 }

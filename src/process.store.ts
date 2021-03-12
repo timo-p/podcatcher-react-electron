@@ -7,7 +7,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import createElectronStorage from 'redux-persist-electron-storage';
 import createSagaMiddleware from 'redux-saga';
 import createRootReducer from './reducers';
-import mySaga from './sagas';
+import rootSaga from './sagas';
 
 export const history = createBrowserHistory();
 
@@ -36,7 +36,7 @@ const enhancer = composeEnhancers(
 
 const store = createStore(persistedReducer, undefined, enhancer);
 export const persistor = persistStore(store);
-sagaMiddleware.run(mySaga);
+sagaMiddleware.run(rootSaga);
 
 export default store;
 

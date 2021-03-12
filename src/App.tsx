@@ -13,10 +13,12 @@ import AddFeedBatch from './containers/AddFeedBatch';
 import FeedPosts from './containers/FeedPosts';
 import Feeds from './containers/Feeds';
 import Menu from './containers/Menu';
+import QueueTabButtons from './containers/QueueTabButtons';
 import RefreshQueue from './containers/RefreshQueue';
 import Settings from './containers/Settings';
 import UnreadPosts from './containers/UnreadPosts';
 import { StoreType } from './process.store';
+import styles from './App.module.css';
 
 type AppProps = {
   store: StoreType;
@@ -31,8 +33,10 @@ export default function App({ store, persistor, history }: AppProps) {
         <PersistGate loading={null} persistor={persistor}>
           <Grid container>
             <Grid item xs={2}>
-              <Menu />
-              <Feeds />
+              <div className={styles.sticky}>
+                <Menu />
+                <Feeds />
+              </div>
             </Grid>
             <Grid item xs={8}>
               <Switch>
@@ -44,7 +48,9 @@ export default function App({ store, persistor, history }: AppProps) {
               </Switch>
             </Grid>
             <Grid item xs={2}>
-              <RefreshQueue />
+              <div className={styles.sticky}>
+                <QueueTabButtons />
+              </div>
             </Grid>
           </Grid>
         </PersistGate>

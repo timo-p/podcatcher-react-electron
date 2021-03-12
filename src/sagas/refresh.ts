@@ -14,25 +14,27 @@ import {
   PROCESS_REFRESH_QUEUE,
   REMOVE_FROM_REFRESH_QUEUE,
   UPDATE_REFRESH_QUEUE_ITEM_STATUS,
-} from './actions';
+} from '../actions';
 import {
   PodcatcherStateType,
   Refresh,
   RefreshQueueItem,
   Settings,
-} from './reducers/types';
-import { ParsedFeed } from './types/types';
-import { fetchFeed } from './utils/feeds';
+} from '../reducers/types';
+import { ParsedFeed } from '../types/types';
+import { fetchFeed } from '../utils/feeds';
 
 function* fetchUser(): Generator<Effect, void, string> {
   try {
     const [
       refreshState,
       settingsState,
-    ] = ((yield select(({ refresh, settings }: PodcatcherStateType) => [
-      refresh,
-      settings,
-    ])) as unknown) as [Refresh, Settings];
+    ] = ((yield select(
+      ({ selectedRefreshState, settings }: PodcatcherStateType) => [
+        selectedRefreshState,
+        settings,
+      ]
+    )) as unknown) as [Refresh, Settings];
     if (refreshState.queue.length > 0) {
       const refreshQueueItem = refreshState.queue[0];
       const ignoreOlderThan = sub(new Date(), {
@@ -79,7 +81,7 @@ function* startCheck() {
   });
 }
 
-export default function* mySaga() {
+export default function* refresh() {
   while (((yield take(PROCESS_REFRESH_QUEUE)) as unknown) as TakeEffect) {
     const refreshQueue: RefreshQueueItem[] = yield select(
       ({ refresh: { queue } }: PodcatcherStateType) => queue

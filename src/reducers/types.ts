@@ -30,11 +30,29 @@ export type Refresh = {
   queue: RefreshQueueItem[];
 };
 
+export type DownloadQueueItemStatus =
+  | 'queued'
+  | 'downloading'
+  | 'canceled'
+  | 'finished';
+
+export type DownloadQueueItem = {
+  postId: string;
+  url: string;
+  title: string;
+  status: DownloadQueueItemStatus;
+};
+
+export type Download = {
+  queue: DownloadQueueItem[];
+};
+
 export type PodcatcherStateType = {
   posts: StatePost;
   feeds: StateFeed;
   settings: Settings;
   refresh: Refresh;
+  download: Download;
 };
 
 export type GetState = () => PodcatcherStateType;
