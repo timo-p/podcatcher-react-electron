@@ -2,7 +2,7 @@ import { push } from 'connected-react-router';
 import { sortBy, values } from 'ramda';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { removeFeed } from '../actions/podcatcher';
+import { removeFeed } from '../actions';
 import Posts from '../components/Posts/Posts';
 import { PodcatcherStateType } from '../reducers/types';
 import filterUnreadPosts from '../utils/filterUnreadPosts';

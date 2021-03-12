@@ -5,7 +5,7 @@ import {
   markAllPostsRead,
   addToRefreshQueue,
   processRefreshQueue,
-} from '../actions/podcatcher';
+} from '../actions';
 import Feeds from '../components/Feeds/Feeds';
 import { PodcatcherStateType } from '../reducers/types';
 import filterUnreadPosts from '../utils/filterUnreadPosts';

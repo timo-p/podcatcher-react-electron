@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import { addFeed, addPosts } from '../actions/podcatcher';
+import { addFeed, addPosts } from '../actions';
 import Menu from '../components/Menu/Menu';
 
 function mapDispatchToProps(dispatch: Dispatch) {

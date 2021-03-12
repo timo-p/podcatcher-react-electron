@@ -8,7 +8,7 @@ import {
   removePosts,
   addToRefreshQueue,
   processRefreshQueue,
-} from '../actions/podcatcher';
+} from '../actions';
 import FeedPosts from '../components/FeedPosts/FeedPosts';
 import { PodcatcherStateType } from '../reducers/types';
 

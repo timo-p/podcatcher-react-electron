@@ -4,7 +4,7 @@ import {
   RefreshActions,
   REMOVE_FROM_REFRESH_QUEUE,
   UPDATE_REFRESH_QUEUE_ITEM_STATUS,
-} from '../actions/podcatcher';
+} from '../actions';
 import { Refresh, RefreshQueueItem } from './types';
 
 const removeFromRefreshList = (

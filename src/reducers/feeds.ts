@@ -4,7 +4,7 @@ import {
   FeedActions,
   REMOVE_ALL_FEEDS,
   REMOVE_FEED,
-} from '../actions/podcatcher';
+} from '../actions';
 import { StateFeed } from './types';
 
 export default function feeds(state: StateFeed = {}, action: FeedActions) {

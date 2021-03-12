@@ -7,7 +7,7 @@ import {
   REMOVE_ALL_POSTS,
   REMOVE_POSTS,
   SET_POST_IS_READ,
-} from '../actions/podcatcher';
+} from '../actions';
 import { StatePost } from './types';
 
 export default function posts(state: StatePost = {}, action: PostActions) {

@@ -1,10 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
-import {
-  saveSettings,
-  removeAllFeeds,
-  removeAllPosts,
-} from '../actions/podcatcher';
+import { saveSettings, removeAllFeeds, removeAllPosts } from '../actions';
 import Settings from '../components/Settings/Settings';
 import { PodcatcherStateType } from '../reducers/types';
 

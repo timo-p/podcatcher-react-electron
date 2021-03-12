@@ -1,5 +1,5 @@
 import os from 'os';
-import { SAVE_SETTINGS, SettingsActions } from '../actions/podcatcher';
+import { SAVE_SETTINGS, SettingsActions } from '../actions';
 import { Settings } from './types';
 
 export const initialState: Settings = {

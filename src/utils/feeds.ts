@@ -63,13 +63,6 @@ export async function parseFeed(
       lastChanged: new Date().toString(),
     };
 
-    /*
-    const min = sub(new Date(), {
-      [store.getState().settings.ignoreOlderThanUnit]: store.getState().settings
-        .ignoreOlderThan,
-    });
-    */
-
     const posts =
       f.item
         ?.filter((item) => item.enclosure)
