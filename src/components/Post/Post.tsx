@@ -19,14 +19,14 @@ import { DownloadQueueItem } from '../../reducers/types';
 import { Post as PostType } from '../../types/types';
 import styles from './Post.css';
 
-type Props = {
+export type PostProps = {
   post: PostType;
   setPostIsRead: (postId: PostType['id'], isRead: boolean) => void;
   addToDownloadQueue: (items: DownloadQueueItem[]) => void;
   processDownloadQueue: () => void;
 };
 
-export default function Post(props: Props) {
+export default function Post(props: PostProps) {
   const {
     post,
     setPostIsRead,

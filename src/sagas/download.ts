@@ -31,7 +31,14 @@ function* mockDownloader(
   downloadDir: string,
   feedTitle: string
 ) {
-  let updatedDownloadItem = item;
+  let updatedDownloadItem = {
+    ...item,
+    status: 'downloading',
+  };
+  yield put({
+    type: UPDATE_DOWNLOAD_QUEUE_ITEM_STATUS,
+    payload: updatedDownloadItem,
+  });
 
   const asd = new Promise((resolve) => {
     console.log('Starting download', item);
@@ -118,13 +125,6 @@ function* processQueue(): Promise<Generator<Effect, void, string>> {
     if (downloadState.queue.length > 0) {
       const downloadQueueItem = downloadState.queue[0];
       const itemFeed = feedsState[downloadQueueItem.feedId];
-      yield put({
-        type: UPDATE_DOWNLOAD_QUEUE_ITEM_STATUS,
-        payload: {
-          ...downloadQueueItem,
-          status: 'downloading',
-        },
-      });
 
       const updatedFeed = ((yield call(
         mockDownloader,
