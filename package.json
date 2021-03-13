@@ -280,6 +280,7 @@
     "redux-saga": "^1.1.3",
     "regenerator-runtime": "^0.13.5",
     "request-promise-native": "^1.0.9",
+    "sanitize-filename": "^1.6.3",
     "source-map-support": "^0.5.19",
     "xml2js": "^0.4.23"
   },

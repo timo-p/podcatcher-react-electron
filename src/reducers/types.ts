@@ -38,9 +38,14 @@ export type DownloadQueueItemStatus =
 
 export type DownloadQueueItem = {
   postId: string;
+  feedId: string;
   url: string;
   title: string;
+  file: string;
+  size: number;
   status: DownloadQueueItemStatus;
+  progress: number;
+  speed: number;
 };
 
 export type Download = {

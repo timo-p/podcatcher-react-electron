@@ -30,7 +30,7 @@ function* fetchUser(): Generator<Effect, void, string> {
       refreshState,
       settingsState,
     ] = ((yield select(
-      ({ selectedRefreshState, settings }: PodcatcherStateType) => [
+      ({ refresh: selectedRefreshState, settings }: PodcatcherStateType) => [
         selectedRefreshState,
         settings,
       ]

@@ -4,7 +4,6 @@ import React from 'react';
 import DownloadQueue from '../../containers/DownloadQueue';
 import RefreshQueue from '../../containers/RefreshQueue';
 import { DownloadQueueItem, RefreshQueueItem } from '../../reducers/types';
-import styles from './QueueTabButtons.module.css';
 
 type QueueTabButtonsProps = {
   refreshQueue: RefreshQueueItem[];
@@ -19,12 +18,7 @@ export default function QueueTabButtons({
 
   return (
     <>
-      <ButtonGroup
-        variant="contained"
-        fullWidth
-        color="primary"
-        className={styles.buttonGroup}
-      >
+      <ButtonGroup variant="contained" fullWidth color="primary">
         <Button
           variant={leftOpen ? 'contained' : 'outlined'}
           onClick={() => setLeftOpen(true)}

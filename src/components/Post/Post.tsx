@@ -12,7 +12,9 @@ import CheckBoxOutlined from '@material-ui/icons/CheckBoxOutlined';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import classNames from 'classnames';
 import { formatDistanceToNow } from 'date-fns';
+import path from 'path';
 import React, { useState } from 'react';
+import sanitize from 'sanitize-filename';
 import { DownloadQueueItem } from '../../reducers/types';
 import { Post as PostType } from '../../types/types';
 import styles from './Post.css';
@@ -34,12 +36,21 @@ export default function Post(props: Props) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const download = () => {
+    const title = sanitize(post.title);
+    const file = title
+      ? `${title}${path.extname(post.filename) || '.mp3'}`
+      : post.filename;
     addToDownloadQueue([
       {
         postId: post.id,
+        feedId: post.feedId,
         url: post.url,
         title: post.title,
+        file,
+        size: post.size,
         status: 'queued',
+        progress: 0,
+        speed: 0,
       },
     ]);
     processDownloadQueue();
