@@ -23,16 +23,16 @@ export default function QueueTabButtons({
           variant={leftOpen ? 'contained' : 'outlined'}
           onClick={() => setLeftOpen(true)}
         >
-          <CloudDownload /> {refreshQueue.length}
+          <CloudDownload /> {downloadQueue.length}
         </Button>
         <Button
           variant={leftOpen ? 'outlined' : 'contained'}
           onClick={() => setLeftOpen(false)}
         >
-          <Refresh /> {downloadQueue.length}
+          <Refresh /> {refreshQueue.length}
         </Button>
       </ButtonGroup>
-      {leftOpen ? <RefreshQueue /> : <DownloadQueue />}
+      {leftOpen ? <DownloadQueue /> : <RefreshQueue />}
     </>
   );
 }

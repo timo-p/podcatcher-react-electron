@@ -2,6 +2,7 @@ import { map, prop } from 'ramda';
 import {
   ADD_TO_DOWNLOAD_QUEUE,
   DownloadActions,
+  REMOVE_ALL_DOWNLOAD_QUEUE_ITEMS,
   REMOVE_FROM_DOWNLOAD_QUEUE,
   UPDATE_DOWNLOAD_QUEUE_ITEM_STATUS,
 } from '../actions';
@@ -41,6 +42,12 @@ export default function download(
         queue: state.queue.map((item) =>
           item.postId === action.payload.postId ? action.payload : item
         ),
+      };
+
+    case REMOVE_ALL_DOWNLOAD_QUEUE_ITEMS:
+      return {
+        ...state,
+        queue: [],
       };
 
     default:

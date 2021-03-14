@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import { isAfter } from 'date-fns';
 import path from 'path';
 import rp from 'request-promise-native';
+import sanitize from 'sanitize-filename';
 import url from 'url';
 import xml2js from 'xml2js';
 import { ParsedFeed } from '../types/types';
@@ -71,6 +72,9 @@ export async function parseFeed(
           const parsedUrl = url.parse(postUrl);
           const filename = path.basename(parsedUrl.pathname!);
           const guid = item.guid?.[0]._ || item.guid?.[0].toString();
+          const filenameOnDisk = item.title[0]
+            ? `${sanitize(item.title[0])}${path.extname(filename) || '.mp3'}`
+            : filename;
 
           return {
             id: hash(feed.id + guid + postUrl + item.pubDate[0]),
@@ -80,6 +84,7 @@ export async function parseFeed(
             description: item.description?.[0] || '',
             url: postUrl,
             filename,
+            filenameOnDisk,
             size: parseInt(item.enclosure![0].$.length, 10),
             isRead: false,
           };

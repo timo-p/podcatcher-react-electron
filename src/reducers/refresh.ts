@@ -2,6 +2,7 @@ import { map, prop } from 'ramda';
 import {
   ADD_TO_REFRESH_QUEUE,
   RefreshActions,
+  REMOVE_ALL_REFRESH_QUEUE_ITEMS,
   REMOVE_FROM_REFRESH_QUEUE,
   UPDATE_REFRESH_QUEUE_ITEM_STATUS,
 } from '../actions';
@@ -41,6 +42,12 @@ export default function refresh(
         queue: state.queue.map((item) =>
           item.url === action.payload.url ? action.payload : item
         ),
+      };
+
+    case REMOVE_ALL_REFRESH_QUEUE_ITEMS:
+      return {
+        ...state,
+        queue: [],
       };
 
     default:

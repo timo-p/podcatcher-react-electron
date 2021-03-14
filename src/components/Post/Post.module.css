@@ -1,5 +1,11 @@
+/* @type */
+
+.card {
+  margin-bottom: 1rem;
+}
+
 .expand {
-  margin-left: auto;
+  margin-left: auto !important;
 }
 
 .expanded {

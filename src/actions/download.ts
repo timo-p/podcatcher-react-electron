@@ -5,6 +5,8 @@ export const REMOVE_FROM_DOWNLOAD_QUEUE = 'REMOVE_FROM_DOWNLOAD_QUEUE';
 export const PROCESS_DOWNLOAD_QUEUE = 'PROCESS_DOWNLOAD_QUEUE';
 export const UPDATE_DOWNLOAD_QUEUE_ITEM_STATUS =
   'UPDATE_DOWNLOAD_QUEUE_ITEM_STATUS';
+export const REMOVE_ALL_DOWNLOAD_QUEUE_ITEMS =
+  'REMOVE_ALL_DOWNLOAD_QUEUE_ITEMS';
 
 export interface AddToDownloadQueueAction {
   type: typeof ADD_TO_DOWNLOAD_QUEUE;
@@ -58,7 +60,18 @@ export function updateDownloadQueueItem(
   };
 }
 
+export interface RemoveAllDownloadQueueItems {
+  type: typeof REMOVE_ALL_DOWNLOAD_QUEUE_ITEMS;
+}
+
+export function removeAllDownloadQueueItems(): RemoveAllDownloadQueueItems {
+  return {
+    type: REMOVE_ALL_DOWNLOAD_QUEUE_ITEMS,
+  };
+}
+
 export type DownloadActions =
   | AddToDownloadQueueAction
   | RemoveFromDownloadQueueAction
-  | UpdateDownloadQueueItemStatus;
+  | UpdateDownloadQueueItemStatus
+  | RemoveAllDownloadQueueItems;

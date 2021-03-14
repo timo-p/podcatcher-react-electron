@@ -21,6 +21,8 @@ type SettinsProps = {
   saveSettings: (settings: SettingsType) => void;
   removeAllFeeds: () => void;
   removeAllPosts: () => void;
+  removeAllDownloadQueueItems: () => void;
+  removeAllRefreshQueueItems: () => void;
 };
 
 export default function Settings({
@@ -28,6 +30,8 @@ export default function Settings({
   saveSettings,
   removeAllFeeds,
   removeAllPosts,
+  removeAllDownloadQueueItems,
+  removeAllRefreshQueueItems,
 }: SettinsProps) {
   const {
     downloadDir: oldDownloadDir,
@@ -60,6 +64,8 @@ export default function Settings({
   const resetFeeds = () => {
     removeAllFeeds();
     removeAllPosts();
+    removeAllDownloadQueueItems();
+    removeAllRefreshQueueItems();
   };
 
   return (

@@ -5,6 +5,7 @@ export const REMOVE_FROM_REFRESH_QUEUE = 'REMOVE_FROM_REFRESH_QUEUE';
 export const PROCESS_REFRESH_QUEUE = 'PROCESS_REFRESH_QUEUE';
 export const UPDATE_REFRESH_QUEUE_ITEM_STATUS =
   'UPDATE_REFRESH_QUEUE_ITEM_STATUS';
+export const REMOVE_ALL_REFRESH_QUEUE_ITEMS = 'REMOVE_ALL_REFRESH_QUEUE_ITEMS';
 
 export interface AddToRefreshQueueAction {
   type: typeof ADD_TO_REFRESH_QUEUE;
@@ -58,7 +59,18 @@ export function updateRefreshQueueItem(
   };
 }
 
+export interface RemoveAllRefreshQueueItems {
+  type: typeof REMOVE_ALL_REFRESH_QUEUE_ITEMS;
+}
+
+export function removeAllRefreshQueueItems(): RemoveAllRefreshQueueItems {
+  return {
+    type: REMOVE_ALL_REFRESH_QUEUE_ITEMS,
+  };
+}
+
 export type RefreshActions =
   | AddToRefreshQueueAction
   | RemoveFromRefreshQueueAction
-  | UpdateRefreshQueueItemStatus;
+  | UpdateRefreshQueueItemStatus
+  | RemoveAllRefreshQueueItems;

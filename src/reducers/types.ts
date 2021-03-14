@@ -41,7 +41,7 @@ export type DownloadQueueItem = {
   feedId: string;
   url: string;
   title: string;
-  file: string;
+  filenameOnDisk: string;
   size: number;
   status: DownloadQueueItemStatus;
   progress: number;

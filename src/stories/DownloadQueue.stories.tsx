@@ -19,10 +19,20 @@ export default {
   ],
   argTypes: {
     progress: {
+      defaultValue: 10,
       control: {
         type: 'range',
         min: 0,
         max: 100,
+        step: 1,
+      },
+    },
+    speed: {
+      defaultValue: 10,
+      control: {
+        type: 'range',
+        min: 0,
+        max: 10000,
         step: 1,
       },
     },
@@ -31,7 +41,7 @@ export default {
 
 const downloadItem: DownloadQueueItem = {
   feedId: '8244b1b1e127ccaa9c1e9253f9e8a046411934652f83ca9e9d92abdb182bb428',
-  file: 'AMT395 Bobble Hats, the Hollywood Sign and the Macarena.mp3',
+  filenameOnDisk: 'AMT395 Bobble Hats, the Hollywood Sign and the Macarena.mp3',
   postId: '4b8f7dfd1653396bd2ee46651b643bc297c0ef3f50a4b01fd049df4061fe4b77',
   progress: 0,
   size: 51317568,
@@ -42,11 +52,15 @@ const downloadItem: DownloadQueueItem = {
     'https://podtrac.com/pts/redirect.mp3/traffic.libsyn.com/clean/secure/answermethis/Answer_Me_This_episode_395.mp3?dest-id=13097',
 };
 
-type StoryProps = DownloadsProps & { progress: number };
+type StoryProps = DownloadsProps & { progress: number; speed: number };
 
-const Template: Story<StoryProps> = ({ progress, downloads }: StoryProps) => {
+const Template: Story<StoryProps> = ({
+  progress,
+  speed,
+  downloads,
+}: StoryProps) => {
   const downloadsProps = [
-    { ...downloads[0], progress: progress || 0 },
+    { ...downloads[0], progress, speed },
     ...downloads.slice(1),
   ];
   return <DownloadQueue downloads={downloadsProps} />;

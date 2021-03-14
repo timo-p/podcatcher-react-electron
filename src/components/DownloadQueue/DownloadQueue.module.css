@@ -1,0 +1,16 @@
+/* @type */
+
+.listItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.listItemText {
+  display: grid;
+}
+
+.listItemText span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

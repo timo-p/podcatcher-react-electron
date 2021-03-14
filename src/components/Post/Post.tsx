@@ -6,21 +6,21 @@ import {
   Collapse,
   IconButton,
 } from '@material-ui/core';
-import { CloudDownload } from '@material-ui/icons';
+import { CloudDownload, CloudDone } from '@material-ui/icons';
 import CheckBoxOutlineBlankOutlined from '@material-ui/icons/CheckBoxOutlineBlankOutlined';
 import CheckBoxOutlined from '@material-ui/icons/CheckBoxOutlined';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import classNames from 'classnames';
 import { formatDistanceToNow } from 'date-fns';
-import path from 'path';
 import React, { useState } from 'react';
-import sanitize from 'sanitize-filename';
 import { DownloadQueueItem } from '../../reducers/types';
-import { Post as PostType } from '../../types/types';
-import styles from './Post.css';
+import { Feed, Post as PostType } from '../../types/types';
+import styles from './Post.module.css';
 
 export type PostProps = {
   post: PostType;
+  feed: Feed;
+  fileExistsOnDisk: boolean;
   setPostIsRead: (postId: PostType['id'], isRead: boolean) => void;
   addToDownloadQueue: (items: DownloadQueueItem[]) => void;
   processDownloadQueue: () => void;
@@ -29,6 +29,7 @@ export type PostProps = {
 export default function Post(props: PostProps) {
   const {
     post,
+    fileExistsOnDisk,
     setPostIsRead,
     addToDownloadQueue,
     processDownloadQueue,
@@ -36,17 +37,13 @@ export default function Post(props: PostProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const download = () => {
-    const title = sanitize(post.title);
-    const file = title
-      ? `${title}${path.extname(post.filename) || '.mp3'}`
-      : post.filename;
     addToDownloadQueue([
       {
         postId: post.id,
         feedId: post.feedId,
         url: post.url,
         title: post.title,
-        file,
+        filenameOnDisk: post.filenameOnDisk,
         size: post.size,
         status: 'queued',
         progress: 0,
@@ -57,14 +54,14 @@ export default function Post(props: PostProps) {
   };
 
   return (
-    <Card>
+    <Card className={styles.card}>
       <CardHeader
         title={post.title}
         onClick={() => setIsExpanded(!isExpanded)}
         subheader={`${formatDistanceToNow(new Date(post.pubDate))} ago`}
         classes={{ title: styles.title }}
       />
-      <CardActions>
+      <CardActions disableSpacing>
         <IconButton onClick={() => setPostIsRead(post.id, !post.isRead)}>
           {post.isRead ? (
             <CheckBoxOutlined />
@@ -72,6 +69,10 @@ export default function Post(props: PostProps) {
             <CheckBoxOutlineBlankOutlined />
           )}
         </IconButton>
+        <IconButton onClick={download}>
+          <CloudDownload />
+        </IconButton>
+        {fileExistsOnDisk && <CloudDone color="primary" />}
         <IconButton
           className={classNames(styles.expand, {
             [styles.expanded]: isExpanded,
@@ -79,9 +80,6 @@ export default function Post(props: PostProps) {
           onClick={() => setIsExpanded(!isExpanded)}
         >
           <ExpandMoreIcon />
-        </IconButton>
-        <IconButton onClick={download}>
-          <CloudDownload />
         </IconButton>
       </CardActions>
       <Collapse in={isExpanded}>

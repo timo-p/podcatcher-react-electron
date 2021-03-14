@@ -47,9 +47,9 @@ function* mockDownloader(
       console.log('Creating directory', tempDir);
       fs.mkdirSync(tempDir);
     }
-    const tmpFilename = path.join(tempDir, `${item.file}.incomplete`);
+    const tmpFilename = path.join(tempDir, `${item.filenameOnDisk}.incomplete`);
     const feedDir = path.join(downloadDir, sanitize(feedTitle));
-    const filename = path.join(feedDir, item.file);
+    const filename = path.join(feedDir, item.filenameOnDisk);
     const file = fs.createWriteStream(tmpFilename);
     file.on('close', () => {
       if (fs.existsSync(tmpFilename)) {

@@ -6,6 +6,7 @@ export type Post = {
   description: string;
   url: string;
   filename: string;
+  filenameOnDisk: string;
   size: number;
   isRead: boolean;
 };
