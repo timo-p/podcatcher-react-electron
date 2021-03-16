@@ -25,28 +25,28 @@ import { ParsedFeed } from '../types/types';
 import { fetchFeed } from '../utils/feeds';
 
 function* fetchUser(): Generator<Effect, void, string> {
-  try {
-    const [
-      refreshState,
-      settingsState,
-    ] = ((yield select(
-      ({ refresh: selectedRefreshState, settings }: PodcatcherStateType) => [
-        selectedRefreshState,
-        settings,
-      ]
-    )) as unknown) as [Refresh, Settings];
-    if (refreshState.queue.length > 0) {
-      const refreshQueueItem = refreshState.queue[0];
-      const ignoreOlderThan = sub(new Date(), {
-        [settingsState.ignoreOlderThanUnit]: settingsState.ignoreOlderThan,
-      });
-      yield put({
-        type: UPDATE_REFRESH_QUEUE_ITEM_STATUS,
-        payload: {
-          ...refreshQueueItem,
-          status: 'processing',
-        },
-      });
+  const [
+    refreshState,
+    settingsState,
+  ] = ((yield select(
+    ({ refresh: selectedRefreshState, settings }: PodcatcherStateType) => [
+      selectedRefreshState,
+      settings,
+    ]
+  )) as unknown) as [Refresh, Settings];
+  if (refreshState.queue.length > 0) {
+    const refreshQueueItem = refreshState.queue[0];
+    const ignoreOlderThan = sub(new Date(), {
+      [settingsState.ignoreOlderThanUnit]: settingsState.ignoreOlderThan,
+    });
+    yield put({
+      type: UPDATE_REFRESH_QUEUE_ITEM_STATUS,
+      payload: {
+        ...refreshQueueItem,
+        status: 'processing',
+      },
+    });
+    try {
       const updatedFeed = ((yield call(
         fetchFeed,
         refreshQueueItem.url,
@@ -64,14 +64,14 @@ function* fetchUser(): Generator<Effect, void, string> {
           posts: updatedFeed.posts.map((p) => p.id),
         },
       });
-
+    } catch (e) {
+      console.log(`Failed to fetch ${refreshQueueItem.url}. Error: ${e}`);
+    } finally {
       yield put({
         type: REMOVE_FROM_REFRESH_QUEUE,
         payload: refreshQueueItem.url,
       });
     }
-  } catch (e) {
-    console.log(e);
   }
 }
 

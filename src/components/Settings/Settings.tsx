@@ -12,7 +12,7 @@ import {
   IgnoreOlderThanUnit,
   Settings as SettingsType,
 } from '../../reducers/types';
-import styles from './Settings.css';
+import styles from './Settings.module.css';
 
 const { ipcRenderer } = require('electron');
 
@@ -49,10 +49,17 @@ export default function Settings({
     oldIgnoreOlderThanUnit
   );
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ipcRenderer.on('open-dialog-paths-selected', (_event: any, arg: string[]) => {
-    if (arg.length > 0) setDownloadDir(arg[0]);
-  });
+  const selectDownloadDir = () => {
+    ipcRenderer
+      .invoke('show-open-dialog', downloadDir)
+      .then((result: string[] | undefined) => {
+        if (result && result.length > 0) setDownloadDir(result[0]);
+        return result;
+      })
+      .catch((e: unknown) => {
+        console.log(e);
+      });
+  };
 
   const save = () =>
     saveSettings({
@@ -80,12 +87,7 @@ export default function Settings({
           disabled
           value={downloadDir}
         />
-        <Button
-          variant="contained"
-          onClick={() => {
-            ipcRenderer.sendSync('show-open-dialog', downloadDir);
-          }}
-        >
+        <Button variant="contained" onClick={selectDownloadDir}>
           Select download directory
         </Button>
       </Box>

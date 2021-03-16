@@ -135,18 +135,14 @@ app.on('activate', () => {
   if (mainWindow === null) createWindow();
 });
 
-ipcMain.on('show-open-dialog', (event, downloadDir: string | undefined) => {
-  const options: OpenDialogOptions = {
-    defaultPath: downloadDir || undefined,
-    properties: ['openDirectory'],
-  };
+ipcMain.handle(
+  'show-open-dialog',
+  (_event, downloadDir: string | undefined) => {
+    const options: OpenDialogOptions = {
+      defaultPath: downloadDir || undefined,
+      properties: ['openDirectory'],
+    };
 
-  const activeWindow = BrowserWindow.getFocusedWindow();
-  if (activeWindow)
-    dialog
-      .showOpenDialog(activeWindow, options)
-      .then(({ filePaths }) => {
-        return event.sender.send('open-dialog-paths-selected', filePaths);
-      })
-      .catch(console.log);
-});
+    return dialog.showOpenDialogSync(options);
+  }
+);
