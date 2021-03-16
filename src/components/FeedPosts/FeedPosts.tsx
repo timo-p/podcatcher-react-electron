@@ -1,4 +1,5 @@
-import { Button, Typography, List } from '@material-ui/core';
+import { IconButton, List, Typography } from '@material-ui/core';
+import { Delete, Done, Refresh } from '@material-ui/icons';
 import React from 'react';
 import Post from '../../containers/Post';
 import { RefreshQueueItem } from '../../reducers/types';
@@ -48,12 +49,16 @@ export default function FeedPosts({
 
   return (
     <>
-      <Typography>{feed?.title}</Typography>
-      <Button onClick={() => markPostsRead(posts.map((p) => p.id))}>
-        Mark all posts as read
-      </Button>
-      <Button onClick={() => refresh()}>Refresh feed</Button>
-      <Button onClick={() => removeFeedAndGoToHome()}>Delete feed</Button>
+      <Typography variant="h4">{feed?.title}</Typography>
+      <IconButton onClick={() => markPostsRead(posts.map((p) => p.id))}>
+        <Done />
+      </IconButton>
+      <IconButton onClick={() => refresh()}>
+        <Refresh />
+      </IconButton>
+      <IconButton onClick={() => removeFeedAndGoToHome()}>
+        <Delete />
+      </IconButton>
       {feed && (
         <List>
           {posts.map((post) => (

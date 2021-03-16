@@ -1,58 +1,65 @@
-import { Button, Menu as MuiMenu, MenuItem } from '@material-ui/core';
-import { range } from 'ramda';
+import {
+  IconButton,
+  ListItemIcon,
+  Menu as MuiMenu,
+  MenuItem,
+} from '@material-ui/core';
+import {
+  AddCircleOutline,
+  Menu as MenuIcon,
+  Settings,
+  ViewList,
+} from '@material-ui/icons';
+import Add from '@material-ui/icons/Add';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ParsedFeed, Post } from '../../types/types';
-import generateFeed from '../../utils/generateFeed';
-import generatePost from '../../utils/generatePost';
+import styles from './Menu.module.css';
 
-type MenuProps = {
-  addFeed: (feed: ParsedFeed) => void;
-  addPosts: (posts: Post[]) => void;
-};
-
-export default function Menu({ addFeed, addPosts }: MenuProps) {
+export default function Menu() {
   const [anchorEl, setAnchorEl] = React.useState<Element | undefined>(
     undefined
   );
   return (
     <div>
-      <Button
-        aria-controls="simple-menu"
-        aria-haspopup="true"
-        onClick={(event) => setAnchorEl(event.currentTarget)}
-      >
-        Menu
-      </Button>
+      <IconButton onClick={(event) => setAnchorEl(event.currentTarget)}>
+        <MenuIcon />
+      </IconButton>
       <MuiMenu
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
         onClick={() => setAnchorEl(undefined)}
       >
         <MenuItem>
-          <Link to="/add-feed">Add feed</Link>
+          <ListItemIcon className={styles.listItemIcon}>
+            <Add />
+          </ListItemIcon>
+          <Link className={styles.link} to="/add-feed">
+            Add feed
+          </Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/add-feed-batch">Add a batch of feeds</Link>
+          <ListItemIcon className={styles.listItemIcon}>
+            <AddCircleOutline />
+          </ListItemIcon>
+          <Link className={styles.link} to="/add-feed-batch">
+            Add a batch of feeds
+          </Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/">Unread</Link>
+          <ListItemIcon className={styles.listItemIcon}>
+            <ViewList />
+          </ListItemIcon>
+          <Link className={styles.link} to="/">
+            Unread
+          </Link>
         </MenuItem>
         <MenuItem>
-          <Link to="/settings">Settings</Link>
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            const feedWithoutPosts = generateFeed();
-            const posts = range(0, 10).map(() =>
-              generatePost(feedWithoutPosts.id)
-            );
-            const feed = { ...feedWithoutPosts, posts: posts.map((p) => p.id) };
-            addFeed(feed);
-            addPosts(posts);
-          }}
-        >
-          Generate feed
+          <ListItemIcon className={styles.listItemIcon}>
+            <Settings />
+          </ListItemIcon>
+          <Link className={styles.link} to="/settings">
+            Settings
+          </Link>
         </MenuItem>
       </MuiMenu>
     </div>

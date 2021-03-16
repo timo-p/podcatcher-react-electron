@@ -1,0 +1,19 @@
+/* @type */
+
+.feedListItem {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.link {
+  color: inherit;
+  font-weight: lighter;
+  font-size: smaller;
+}
+
+.listItemText {
+  margin-top: 0;
+  margin-bottom: 0;
+}
