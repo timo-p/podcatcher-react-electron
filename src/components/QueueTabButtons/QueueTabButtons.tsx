@@ -4,8 +4,9 @@ import React from 'react';
 import DownloadQueue from '../../containers/DownloadQueue';
 import RefreshQueue from '../../containers/RefreshQueue';
 import { DownloadQueueItem, RefreshQueueItem } from '../../reducers/types';
+import styles from './QueueTabButtons.module.css';
 
-type QueueTabButtonsProps = {
+export type QueueTabButtonsProps = {
   refreshQueue: RefreshQueueItem[];
   downloadQueue: DownloadQueueItem[];
 };
@@ -23,7 +24,8 @@ export default function QueueTabButtons({
           variant={leftOpen ? 'contained' : 'outlined'}
           onClick={() => setLeftOpen(true)}
         >
-          <CloudDownload /> {downloadQueue.length}
+          <CloudDownload className={styles.downloadIcon} />{' '}
+          {downloadQueue.length}
         </Button>
         <Button
           variant={leftOpen ? 'outlined' : 'contained'}

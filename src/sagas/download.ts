@@ -79,7 +79,7 @@ function* mockDownloader(
         while (chunks.length > 100) {
           chunks.shift();
         }
-        if (!lastRefreshed || lastRefreshed < Date.now() - 500) {
+        if (!lastRefreshed || lastRefreshed < Date.now() - 1000) {
           const progress = (100.0 * downloaded) / item.size;
           const speed = chunks.reduce((s, c) => s + c, 0) / chunks.length;
           updatedDownloadItem = {
@@ -100,7 +100,7 @@ function* mockDownloader(
   console.log('BEFORE');
   const task = ((yield fork(() => asd)) as unknown) as Task;
   while (task.isRunning()) {
-    yield delay(50);
+    yield delay(1000);
     yield put({
       type: UPDATE_DOWNLOAD_QUEUE_ITEM_STATUS,
       payload: updatedDownloadItem,
