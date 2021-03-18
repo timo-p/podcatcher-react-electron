@@ -1,4 +1,5 @@
 import { sub } from 'date-fns';
+import log from 'electron-log';
 import {
   call,
   Effect,
@@ -65,7 +66,7 @@ function* fetchUser(): Generator<Effect, void, string> {
         },
       });
     } catch (e) {
-      console.log(`Failed to fetch ${refreshQueueItem.url}. Error: ${e}`);
+      log.error(`Failed to fetch ${refreshQueueItem.url}. Error: ${e}`);
     } finally {
       yield put({
         type: REMOVE_FROM_REFRESH_QUEUE,

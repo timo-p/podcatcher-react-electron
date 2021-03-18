@@ -1,23 +1,32 @@
 import {
   Box,
   Button,
+  Checkbox,
+  Collapse,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  FormControlLabel,
   MenuItem,
   Select,
   TextField,
   Typography,
 } from '@material-ui/core';
+import log from 'electron-log';
 import React from 'react';
 import {
   IgnoreOlderThanUnit,
+  PodcatcherStateType,
   Settings as SettingsType,
 } from '../../reducers/types';
 import styles from './Settings.module.css';
 
 const { ipcRenderer } = require('electron');
 
-type SettinsProps = {
-  settings: SettingsType;
+type SettingsProps = {
+  state: PodcatcherStateType;
   saveSettings: (settings: SettingsType) => void;
   removeAllFeeds: () => void;
   removeAllPosts: () => void;
@@ -26,18 +35,18 @@ type SettinsProps = {
 };
 
 export default function Settings({
-  settings,
+  state,
   saveSettings,
   removeAllFeeds,
   removeAllPosts,
   removeAllDownloadQueueItems,
   removeAllRefreshQueueItems,
-}: SettinsProps) {
+}: SettingsProps) {
   const {
     downloadDir: oldDownloadDir,
     ignoreOlderThan: oldIgnoreOlderThan,
     ignoreOlderThanUnit: oldIgnoreOlderThanUnit,
-  } = settings;
+  } = state.settings;
 
   const [downloadDir, setDownloadDir] = React.useState(oldDownloadDir);
 
@@ -57,7 +66,7 @@ export default function Settings({
         return result;
       })
       .catch((e: unknown) => {
-        console.log(e);
+        log.error(`Failed to invoke event: ${e}`);
       });
   };
 
@@ -68,11 +77,20 @@ export default function Settings({
       ignoreOlderThanUnit,
     });
 
-  const resetFeeds = () => {
+  const resetState = () => {
     removeAllFeeds();
     removeAllPosts();
     removeAllDownloadQueueItems();
     removeAllRefreshQueueItems();
+  };
+
+  const [debugToolsOpen, setDebugToolsOpen] = React.useState(false);
+  const [dialogIsOpen, setDialogIsOpen] = React.useState(false);
+
+  const dumpState = () => log.info(JSON.stringify(state));
+  const resetStateAndCloseDialog = () => {
+    resetState();
+    setDialogIsOpen(false);
   };
 
   return (
@@ -82,11 +100,7 @@ export default function Settings({
       </Box>
       <Box className={styles.marginTop}>
         <Typography>Download directory</Typography>
-        <TextField
-          className={styles.downloadDir}
-          disabled
-          value={downloadDir}
-        />
+        <TextField className={styles.wide} disabled value={downloadDir} />
         <Button variant="contained" onClick={selectDownloadDir}>
           Select download directory
         </Button>
@@ -125,10 +139,68 @@ export default function Settings({
         </Button>
       </Box>
       <Box className={styles.marginTop}>
-        <Button variant="contained" color="secondary" onClick={resetFeeds}>
-          Reset feeds
-        </Button>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={debugToolsOpen}
+              onChange={() => setDebugToolsOpen(!debugToolsOpen)}
+              name="checkedA"
+            />
+          }
+          label="Show debug tools"
+        />
       </Box>
+      <Collapse in={debugToolsOpen}>
+        <Box className={styles.marginTop}>
+          <Typography>Logs directory</Typography>
+          <TextField
+            className={styles.wide}
+            disabled
+            value={log.transports.file.getFile().path}
+          />
+        </Box>
+        <Box className={styles.marginTop}>
+          <Button
+            className={styles.marginRight}
+            variant="contained"
+            color="primary"
+            onClick={dumpState}
+          >
+            Dump state to log
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => setDialogIsOpen(true)}
+          >
+            Reset state
+          </Button>
+        </Box>
+      </Collapse>
+      <Dialog
+        open={dialogIsOpen}
+        onClose={() => setDialogIsOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to reset state
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            className={styles.marginRight}
+            onClick={() => setDialogIsOpen(false)}
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button onClick={resetStateAndCloseDialog} color="primary" autoFocus>
+            Do it
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 }

@@ -1,9 +1,13 @@
 /* @type */
 
-.downloadDir {
+.wide {
   width: 100%;
 }
 
 .marginTop {
-  margin-top: 20px;
+  margin-top: 2rem;
+}
+
+.marginRight {
+  margin-right: 1rem !important;
 }

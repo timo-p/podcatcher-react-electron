@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import { isAfter } from 'date-fns';
+import log from 'electron-log';
 import path from 'path';
 import rp from 'request-promise-native';
 import sanitize from 'sanitize-filename';
@@ -97,7 +98,7 @@ export async function parseFeed(
       posts,
     };
   } catch (e) {
-    console.log(e);
+    log.error(`Xml parsing failed ${e}`);
     throw e;
   }
 }
@@ -106,7 +107,7 @@ export async function fetchFeed(
   feedUrl: string,
   ignoreOlderThan: Date
 ): Promise<ParsedFeed> {
-  console.log(`Fetching url ${feedUrl}`);
+  log.info(`Fetching url ${feedUrl}`);
   const options = {
     url: feedUrl,
     headers: {
@@ -119,7 +120,7 @@ export async function fetchFeed(
     const feedWithoutUrl = await parseFeed(response, ignoreOlderThan);
     return { ...feedWithoutUrl, url: feedUrl };
   } catch (e) {
-    console.log(e);
+    log.error(`Fetching feed failed: ${e}`);
     return Promise.reject();
   }
 }

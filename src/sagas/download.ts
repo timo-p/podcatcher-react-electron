@@ -1,3 +1,4 @@
+import log from 'electron-log';
 import fs from 'fs';
 import path from 'path';
 import { Task } from 'redux-saga';
@@ -41,10 +42,10 @@ function* mockDownloader(
   });
 
   const asd = new Promise((resolve) => {
-    console.log('Starting download', item);
+    log.info(`Starting download ${JSON.stringify(item)}`);
     const tempDir = path.join(downloadDir, 'incomplete_downloads');
     if (!fs.existsSync(tempDir)) {
-      console.log('Creating directory', tempDir);
+      log.info(`Creating directory ${tempDir}`);
       fs.mkdirSync(tempDir);
     }
     const tmpFilename = path.join(tempDir, `${item.filenameOnDisk}.incomplete`);
@@ -54,7 +55,7 @@ function* mockDownloader(
     file.on('close', () => {
       if (fs.existsSync(tmpFilename)) {
         if (!fs.existsSync(feedDir)) {
-          console.log('Creating directory', feedDir);
+          log.info(`Creating directory ${feedDir}`);
           fs.mkdirSync(feedDir);
         }
         fs.renameSync(tmpFilename, filename);
@@ -92,12 +93,11 @@ function* mockDownloader(
       });
     });
     req.on('error', (e) => {
-      console.log('Request error', e);
+      log.error(`Request error ${e}`);
     });
     req.pipe(file);
   });
 
-  console.log('BEFORE');
   const task = ((yield fork(() => asd)) as unknown) as Task;
   while (task.isRunning()) {
     yield delay(1000);
@@ -106,10 +106,9 @@ function* mockDownloader(
       payload: updatedDownloadItem,
     });
   }
-  console.log('AFTER');
 }
 
-function* processQueue(): Promise<Generator<Effect, void, string>> {
+function* processQueue(): Generator<Effect, void, string> {
   try {
     const [
       downloadState,
@@ -126,7 +125,7 @@ function* processQueue(): Promise<Generator<Effect, void, string>> {
       const downloadQueueItem = downloadState.queue[0];
       const itemFeed = feedsState[downloadQueueItem.feedId];
 
-      const updatedFeed = ((yield call(
+      ((yield call(
         mockDownloader,
         downloadQueueItem,
         settingsState.downloadDir,
@@ -139,7 +138,7 @@ function* processQueue(): Promise<Generator<Effect, void, string>> {
       });
     }
   } catch (e) {
-    console.log(e);
+    log.error(`Download queue processing failed ${e}`);
   }
 }
 

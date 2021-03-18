@@ -8,17 +8,16 @@ import { Route, Switch } from 'react-router-dom';
 import { Persistor } from 'redux-persist/es/types';
 import { PersistGate } from 'redux-persist/integration/react';
 import './App.global.css';
+import styles from './App.module.css';
 import AddFeed from './containers/AddFeed';
 import AddFeedBatch from './containers/AddFeedBatch';
 import FeedPosts from './containers/FeedPosts';
 import Feeds from './containers/Feeds';
 import Menu from './containers/Menu';
 import QueueTabButtons from './containers/QueueTabButtons';
-import RefreshQueue from './containers/RefreshQueue';
 import Settings from './containers/Settings';
 import UnreadPosts from './containers/UnreadPosts';
 import { StoreType } from './process.store';
-import styles from './App.module.css';
 
 type AppProps = {
   store: StoreType;

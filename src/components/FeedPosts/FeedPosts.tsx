@@ -1,8 +1,7 @@
-import { IconButton, List, Typography } from '@material-ui/core';
+import { Box, IconButton, Typography } from '@material-ui/core';
 import { Delete, Done, Refresh } from '@material-ui/icons';
 import { filter, propEq } from 'ramda';
 import React from 'react';
-import Post from '../../containers/Post';
 import { RefreshQueueItem } from '../../reducers/types';
 import { Feed, Post as PostType } from '../../types/types';
 import Posts from '../Posts/Posts';
@@ -54,12 +53,14 @@ export default function FeedPosts({
 
   return (
     <>
-      <Typography className={styles.title} variant="h4">
-        {feed?.title}
-      </Typography>
-      <Typography className={styles.postCount}>
-        {posts.length} posts in total. {unreadCount} unread.
-      </Typography>
+      <Box className={styles.topBox}>
+        <Typography className={styles.title} variant="h4">
+          {feed?.title}
+        </Typography>
+        <Typography className={styles.postCount}>
+          {posts.length} posts in total. {unreadCount} unread.
+        </Typography>
+      </Box>
       <IconButton onClick={() => markPostsRead(posts.map((p) => p.id))}>
         <Done />
       </IconButton>

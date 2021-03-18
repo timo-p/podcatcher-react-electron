@@ -12,7 +12,7 @@ import { PodcatcherStateType } from '../reducers/types';
 
 function mapStateToProps(state: PodcatcherStateType) {
   return {
-    settings: state.settings,
+    state,
   };
 }
 
