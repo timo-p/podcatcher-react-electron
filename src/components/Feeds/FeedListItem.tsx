@@ -11,8 +11,8 @@ type FeedListItemProps = {
 
 export default function FeedListItem({ feed, unreadPosts }: FeedListItemProps) {
   return (
-    <ListItem className={styles.feedListItem} disableGutters>
-      <ListItemText className={styles.listItemText}>
+    <ListItem dense disableGutters classes={{ root: styles.listItemRoot }}>
+      <ListItemText classes={{ root: styles.listItemTextRoot }}>
         <Link className={styles.link} to={`/feeds/${feed.id}/posts`}>
           {feed.title}
           {unreadPosts > 0 && ` (${unreadPosts})`}

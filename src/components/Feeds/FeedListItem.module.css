@@ -1,10 +1,8 @@
 /* @type */
 
-.feedListItem {
+.listItemRoot {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
 }
 
 .link {
@@ -13,7 +11,7 @@
   font-size: smaller;
 }
 
-.listItemText {
-  margin-top: 0;
-  margin-bottom: 0;
+.listItemTextRoot {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
