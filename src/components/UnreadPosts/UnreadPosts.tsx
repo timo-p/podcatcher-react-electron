@@ -1,22 +1,28 @@
-import { List } from '@material-ui/core';
+import { IconButton, Typography } from '@material-ui/core';
+import { Done } from '@material-ui/icons';
 import React from 'react';
-import Post from '../../containers/Post';
 import { StateFeed } from '../../reducers/types';
 import { Post as PostType } from '../../types/types';
+import Posts from '../Posts/Posts';
 
 type UnreadPostsProps = {
   posts: PostType[];
   feeds: StateFeed;
+  markPostsRead: (postIds: PostType['id'][]) => void;
 };
 
-export default function UnreadPosts({ posts, feeds }: UnreadPostsProps) {
+export default function UnreadPosts({
+  posts,
+  feeds,
+  markPostsRead,
+}: UnreadPostsProps) {
   return (
     <>
-      <List>
-        {posts.map((post) => (
-          <Post post={post} feed={feeds[post.feedId]} key={post.id} />
-        ))}
-      </List>
+      <Typography variant="h4">Unread posts</Typography>
+      <IconButton onClick={() => markPostsRead(posts.map((p) => p.id))}>
+        <Done />
+      </IconButton>
+      <Posts posts={posts} feeds={feeds} />
     </>
   );
 }

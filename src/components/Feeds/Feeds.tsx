@@ -1,7 +1,9 @@
 import { IconButton, List } from '@material-ui/core';
+import { ViewList } from '@material-ui/icons';
 import DoneAll from '@material-ui/icons/DoneAll';
 import Refresh from '@material-ui/icons/Refresh';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { RefreshQueueItem } from '../../reducers/types';
 import { Feed } from '../../types/types';
 import FeedListItem from './FeedListItem';
@@ -40,6 +42,11 @@ export default function Feeds({
       <IconButton onClick={() => refreshAll()}>
         <Refresh />
       </IconButton>
+      <Link to="/">
+        <IconButton>
+          <ViewList />
+        </IconButton>
+      </Link>
       <List>
         {feedsAndUnreadPosts.map(({ feed, unreadPosts }) => (
           <FeedListItem feed={feed} key={feed.id} unreadPosts={unreadPosts} />

@@ -47,14 +47,6 @@ export default function Menu() {
         </MenuItem>
         <MenuItem>
           <ListItemIcon className={styles.listItemIcon}>
-            <ViewList />
-          </ListItemIcon>
-          <Link className={styles.link} to="/">
-            Unread
-          </Link>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon className={styles.listItemIcon}>
             <Settings />
           </ListItemIcon>
           <Link className={styles.link} to="/settings">
