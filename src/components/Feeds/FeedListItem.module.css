@@ -7,8 +7,15 @@
 
 .link {
   color: inherit;
-  font-weight: lighter;
   font-size: smaller;
+}
+
+.linkWithNoUnread {
+  font-weight: lighter;
+}
+
+.linkWithUnread {
+  font-weight: bolder;
 }
 
 .listItemTextRoot {

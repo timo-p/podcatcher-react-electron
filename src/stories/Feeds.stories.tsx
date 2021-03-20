@@ -53,7 +53,7 @@ Primary.args = {
           'Tue Mar 16 2021 17:59:18 GMT+0200 (Eastern European Standard Time)',
         posts: [],
       },
-      unreadPosts: 8,
+      unreadPosts: 0,
     },
     {
       feed: {
