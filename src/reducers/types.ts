@@ -50,6 +50,7 @@ export type DownloadQueueItem = {
 
 export type Download = {
   queue: DownloadQueueItem[];
+  removeQueue: string[];
 };
 
 export type PodcatcherStateType = {

@@ -17,6 +17,7 @@ import sanitize from 'sanitize-filename';
 import {
   PROCESS_DOWNLOAD_QUEUE,
   REMOVE_FROM_DOWNLOAD_QUEUE,
+  REMOVE_FROM_DOWNLOAD_REMOVE_QUEUE,
   UPDATE_DOWNLOAD_QUEUE_ITEM_STATUS,
 } from '../actions';
 import {
@@ -27,7 +28,7 @@ import {
   StateFeed,
 } from '../reducers/types';
 
-function* mockDownloader(
+function* downloader(
   item: DownloadQueueItem,
   downloadDir: string,
   feedTitle: string
@@ -36,12 +37,13 @@ function* mockDownloader(
     ...item,
     status: 'downloading',
   };
+  let cancel = () => {};
   yield put({
     type: UPDATE_DOWNLOAD_QUEUE_ITEM_STATUS,
     payload: updatedDownloadItem,
   });
 
-  const asd = new Promise((resolve) => {
+  const downloadFunc = new Promise((resolve) => {
     log.info(`Starting download ${JSON.stringify(item)}`);
     const tempDir = path.join(downloadDir, 'incomplete_downloads');
     if (!fs.existsSync(tempDir)) {
@@ -68,6 +70,13 @@ function* mockDownloader(
     const chunks: number[] = [];
     let downloaded = 0;
     const req = request.get(item.url);
+    cancel = () => {
+      req.abort();
+      if (fs.existsSync(tmpFilename)) {
+        fs.unlinkSync(tmpFilename);
+      }
+      updatedDownloadItem = { ...updatedDownloadItem, status: 'canceled' };
+    };
     req.on('response', (response) => {
       response.on('data', (chunk) => {
         downloaded += chunk.length;
@@ -98,9 +107,27 @@ function* mockDownloader(
     req.pipe(file);
   });
 
-  const task = ((yield fork(() => asd)) as unknown) as Task;
+  const task = ((yield fork(() => downloadFunc)) as unknown) as Task;
   while (task.isRunning()) {
     yield delay(1000);
+    const removeQueue = ((yield select(
+      ({ download: { removeQueue: stateRemoveQueue } }: PodcatcherStateType) =>
+        stateRemoveQueue
+    )) as unknown) as string[];
+
+    if (removeQueue.includes(item.postId)) {
+      cancel();
+      task.cancel();
+      yield put({
+        type: REMOVE_FROM_DOWNLOAD_REMOVE_QUEUE,
+        payload: item.postId,
+      });
+      yield put({
+        type: UPDATE_DOWNLOAD_QUEUE_ITEM_STATUS,
+        payload: updatedDownloadItem,
+      });
+    }
+
     yield put({
       type: UPDATE_DOWNLOAD_QUEUE_ITEM_STATUS,
       payload: updatedDownloadItem,
@@ -126,7 +153,7 @@ function* processQueue(): Generator<Effect, void, string> {
       const itemFeed = feedsState[downloadQueueItem.feedId];
 
       ((yield call(
-        mockDownloader,
+        downloader,
         downloadQueueItem,
         settingsState.downloadDir,
         itemFeed.title

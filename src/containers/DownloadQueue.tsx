@@ -1,4 +1,6 @@
 import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+import { addToDownloadRemoveQueue } from '../actions';
 import DownloadQueue from '../components/DownloadQueue/DownloadQueue';
 import { PodcatcherStateType } from '../reducers/types';
 
@@ -8,4 +10,13 @@ function mapStateToProps(state: PodcatcherStateType) {
   };
 }
 
-export default connect(mapStateToProps)(DownloadQueue);
+function mapDispatchToProps(dispatch: Dispatch) {
+  return bindActionCreators(
+    {
+      addToDownloadRemoveQueue,
+    },
+    dispatch
+  );
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DownloadQueue);

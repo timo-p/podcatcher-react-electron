@@ -32,6 +32,7 @@ type SettingsProps = {
   removeAllPosts: () => void;
   removeAllDownloadQueueItems: () => void;
   removeAllRefreshQueueItems: () => void;
+  removeAllDownloadRemoveQueueItems: () => void;
 };
 
 export default function Settings({
@@ -41,6 +42,7 @@ export default function Settings({
   removeAllPosts,
   removeAllDownloadQueueItems,
   removeAllRefreshQueueItems,
+  removeAllDownloadRemoveQueueItems,
 }: SettingsProps) {
   const {
     downloadDir: oldDownloadDir,
@@ -82,6 +84,7 @@ export default function Settings({
     removeAllPosts();
     removeAllDownloadQueueItems();
     removeAllRefreshQueueItems();
+    removeAllDownloadRemoveQueueItems();
   };
 
   const [debugToolsOpen, setDebugToolsOpen] = React.useState(false);

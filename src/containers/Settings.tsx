@@ -6,6 +6,7 @@ import {
   removeAllPosts,
   removeAllDownloadQueueItems,
   removeAllRefreshQueueItems,
+  removeAllDownloadRemoveQueueItems,
 } from '../actions';
 import Settings from '../components/Settings/Settings';
 import { PodcatcherStateType } from '../reducers/types';
@@ -24,6 +25,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
       removeAllPosts,
       removeAllDownloadQueueItems,
       removeAllRefreshQueueItems,
+      removeAllDownloadRemoveQueueItems,
     },
     dispatch
   );
