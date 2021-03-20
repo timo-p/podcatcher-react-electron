@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogContentText,
   FormControlLabel,
+  Grid,
   MenuItem,
   Select,
   TextField,
@@ -171,13 +172,55 @@ export default function Settings({
           >
             Dump state to log
           </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => setDialogIsOpen(true)}
-          >
-            Reset state
-          </Button>
+        </Box>
+        <Box className={styles.marginTop}>
+          <Grid container spacing={1}>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={removeAllFeeds}
+              >
+                Reset feeds state
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={removeAllPosts}
+              >
+                Reset posts state
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={removeAllDownloadQueueItems}
+              >
+                Reset download queue state
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={removeAllDownloadRemoveQueueItems}
+              >
+                Reset download remove queue state
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={removeAllRefreshQueueItems}
+              >
+                Reset refresh queue state
+              </Button>
+            </Grid>
+          </Grid>
         </Box>
       </Collapse>
       <Dialog
