@@ -1,6 +1,7 @@
 import { Button, TextField, Typography } from '@material-ui/core';
 import React from 'react';
 import { RefreshQueueItem } from '../../reducers/types';
+import styles from './AddFeedBatch.css';
 
 type AddFeedProps = {
   queueUrls: string[];
@@ -28,10 +29,18 @@ export default function AddFeed({
     <>
       <Typography variant="h4">Add Feed</Typography>
       <TextField
+        variant="outlined"
+        fullWidth
         disabled={disabled}
         onChange={(event) => setUrl(event.target.value)}
       />
-      <Button disabled={disabled} onClick={() => url && add()}>
+      <Button
+        variant="contained"
+        color="primary"
+        className={styles.marginTop}
+        disabled={disabled}
+        onClick={() => url && add()}
+      >
         Add
       </Button>
     </>

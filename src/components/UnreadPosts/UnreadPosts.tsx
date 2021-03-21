@@ -21,7 +21,9 @@ export default function UnreadPosts({
     <>
       <Box className={styles.topBox}>
         <Typography variant="h4">Unread posts</Typography>
-        <Typography>{posts.length} unread posts.</Typography>
+        {posts.length > 0 && (
+          <Typography>{posts.length} unread posts.</Typography>
+        )}
 
         {posts.length === 0 && <Typography>No unread posts</Typography>}
       </Box>

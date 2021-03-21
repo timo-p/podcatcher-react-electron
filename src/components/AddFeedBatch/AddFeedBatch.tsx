@@ -13,7 +13,7 @@ export default function AddFeedBatch({
   processRefreshQueue,
 }: AddFeedBatchProps) {
   const [urls, setUrls] = React.useState('');
-  const add = async () => {
+  const add = () => {
     const refreshQueueItems: RefreshQueueItem[] = urls
       .split('\n')
       .filter((u) => u)
@@ -30,11 +30,19 @@ export default function AddFeedBatch({
       <Typography variant="h4">Add a batch of feeds</Typography>
       <TextField
         multiline
+        variant="outlined"
+        fullWidth
         rows={10}
-        className={styles.textarea}
         onChange={(e) => setUrls(e.target.value)}
       />
-      <Button onClick={() => urls && add()}>Add</Button>
+      <Button
+        className={styles.marginTop}
+        variant="contained"
+        color="primary"
+        onClick={() => urls && add()}
+      >
+        Add
+      </Button>
     </>
   );
 }
