@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { removeFromRefreshQueue } from '../actions';
 import RefreshQueue from '../components/RefreshQueue/RefreshQueue';
-import { PodcatcherStateType } from '../reducers/types';
+import { Dispatch, PodcatcherStateType } from '../reducers/types';
 
 function mapStateToProps(state: PodcatcherStateType) {
   return {
@@ -8,4 +10,13 @@ function mapStateToProps(state: PodcatcherStateType) {
   };
 }
 
-export default connect(mapStateToProps)(RefreshQueue);
+function mapDispatchToProps(dispatch: Dispatch) {
+  return bindActionCreators(
+    {
+      removeFromRefreshQueue,
+    },
+    dispatch
+  );
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RefreshQueue);

@@ -58,12 +58,13 @@ const Template: Story<StoryProps> = ({
   progress,
   speed,
   downloads,
+  ...rest
 }: StoryProps) => {
   const downloadsProps = [
     { ...downloads[0], progress, speed },
     ...downloads.slice(1),
   ];
-  return <DownloadQueue downloads={downloadsProps} />;
+  return <DownloadQueue downloads={downloadsProps} {...rest} />;
 };
 
 export const Primary = Template.bind({});
