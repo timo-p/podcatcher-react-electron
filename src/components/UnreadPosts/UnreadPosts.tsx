@@ -26,15 +26,13 @@ export default function UnreadPosts({
         )}
 
         {posts.length === 0 && <Typography>No unread posts</Typography>}
-      </Box>
-      {posts.length > 0 && (
-        <>
+        {posts.length > 0 && (
           <IconButton onClick={() => markPostsRead(posts.map((p) => p.id))}>
             <Done />
           </IconButton>
-          <Posts posts={posts} feeds={feeds} />
-        </>
-      )}
+        )}
+      </Box>
+      {posts.length > 0 && <Posts posts={posts} feeds={feeds} />}
     </>
   );
 }

@@ -1,7 +1,7 @@
 import { Button, TextField, Typography } from '@material-ui/core';
 import React from 'react';
 import { RefreshQueueItem } from '../../reducers/types';
-import styles from './AddFeedBatch.css';
+import Section from '../Section/Section';
 
 type AddFeedBatchProps = {
   addToRefreshQueue: (items: RefreshQueueItem[]) => void;
@@ -35,14 +35,15 @@ export default function AddFeedBatch({
         rows={10}
         onChange={(e) => setUrls(e.target.value)}
       />
-      <Button
-        className={styles.marginTop}
-        variant="contained"
-        color="primary"
-        onClick={() => urls && add()}
-      >
-        Add
-      </Button>
+      <Section>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => urls && add()}
+        >
+          Add
+        </Button>
+      </Section>
     </>
   );
 }

@@ -1,13 +1,7 @@
 import {
-  Box,
   Button,
   Checkbox,
   Collapse,
-  Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
   FormControlLabel,
   Grid,
   MenuItem,
@@ -22,7 +16,7 @@ import {
   PodcatcherStateType,
   Settings as SettingsType,
 } from '../../reducers/types';
-import styles from './Settings.module.css';
+import Section from '../Section/Section';
 
 const { ipcRenderer } = require('electron');
 
@@ -80,36 +74,21 @@ export default function Settings({
       ignoreOlderThanUnit,
     });
 
-  const resetState = () => {
-    removeAllFeeds();
-    removeAllPosts();
-    removeAllDownloadQueueItems();
-    removeAllRefreshQueueItems();
-    removeAllDownloadRemoveQueueItems();
-  };
-
   const [debugToolsOpen, setDebugToolsOpen] = React.useState(false);
-  const [dialogIsOpen, setDialogIsOpen] = React.useState(false);
 
   const dumpState = () => log.info(JSON.stringify(state));
-  const resetStateAndCloseDialog = () => {
-    resetState();
-    setDialogIsOpen(false);
-  };
 
   return (
-    <Container>
-      <Box>
-        <Typography variant="h4">Settings</Typography>
-      </Box>
-      <Box className={styles.marginTop}>
+    <>
+      <Typography variant="h4">Settings</Typography>
+      <Section>
         <Typography>Download directory</Typography>
-        <TextField className={styles.wide} disabled value={downloadDir} />
+        <TextField fullWidth disabled value={downloadDir} />
         <Button variant="contained" onClick={selectDownloadDir}>
           Select download directory
         </Button>
-      </Box>
-      <Box className={styles.marginTop}>
+      </Section>
+      <Section>
         <Typography>Ignore posts older than</Typography>
         <TextField
           type="number"
@@ -136,13 +115,13 @@ export default function Settings({
           <MenuItem value="weeks">Weeks</MenuItem>
           <MenuItem value="days">Days</MenuItem>
         </Select>
-      </Box>
-      <Box className={styles.marginTop}>
+      </Section>
+      <Section>
         <Button variant="contained" color="primary" onClick={save}>
           Save
         </Button>
-      </Box>
-      <Box className={styles.marginTop}>
+      </Section>
+      <Section>
         <FormControlLabel
           control={
             <Checkbox
@@ -153,27 +132,22 @@ export default function Settings({
           }
           label="Show debug tools"
         />
-      </Box>
+      </Section>
       <Collapse in={debugToolsOpen}>
-        <Box className={styles.marginTop}>
+        <Section>
           <Typography>Logs directory</Typography>
           <TextField
-            className={styles.wide}
+            fullWidth
             disabled
             value={log.transports.file.getFile().path}
           />
-        </Box>
-        <Box className={styles.marginTop}>
-          <Button
-            className={styles.marginRight}
-            variant="contained"
-            color="primary"
-            onClick={dumpState}
-          >
+        </Section>
+        <Section>
+          <Button variant="contained" color="primary" onClick={dumpState}>
             Dump state to log
           </Button>
-        </Box>
-        <Box className={styles.marginTop}>
+        </Section>
+        <Section>
           <Grid container spacing={1}>
             <Grid item>
               <Button
@@ -221,32 +195,8 @@ export default function Settings({
               </Button>
             </Grid>
           </Grid>
-        </Box>
+        </Section>
       </Collapse>
-      <Dialog
-        open={dialogIsOpen}
-        onClose={() => setDialogIsOpen(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you want to reset state
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            className={styles.marginRight}
-            onClick={() => setDialogIsOpen(false)}
-            color="primary"
-          >
-            Cancel
-          </Button>
-          <Button onClick={resetStateAndCloseDialog} color="primary" autoFocus>
-            Do it
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Container>
+    </>
   );
 }

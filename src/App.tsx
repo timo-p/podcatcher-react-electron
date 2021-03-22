@@ -37,7 +37,7 @@ export default function App({ store, persistor, history }: AppProps) {
                 <Feeds />
               </div>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={8} className={styles.container}>
               <Switch>
                 <Route path="/settings" component={Settings} />
                 <Route path="/add-feed" component={AddFeed} />
