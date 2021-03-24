@@ -1,12 +1,7 @@
-/* @type */
-
-.downloadIcon {
-  margin-right: 5px;
-}
-
 .buttonGroup {
   position: sticky;
-  top: 0;
+  top: 48px;
   background-color: white;
   z-index: 1;
+  width: 100%;
 }

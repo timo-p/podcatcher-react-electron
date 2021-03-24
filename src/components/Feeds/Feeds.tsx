@@ -1,4 +1,4 @@
-import { IconButton, List } from '@material-ui/core';
+import { IconButton, List, ButtonGroup } from '@material-ui/core';
 import { ViewList } from '@material-ui/icons';
 import DoneAll from '@material-ui/icons/DoneAll';
 import Refresh from '@material-ui/icons/Refresh';
@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { RefreshQueueItem } from '../../reducers/types';
 import { Feed } from '../../types/types';
 import FeedListItem from './FeedListItem';
+import styles from './Feeds.module.css';
 
 export type FeedsProps = {
   feedsAndUnreadPosts: {
@@ -36,17 +37,19 @@ export default function Feeds({
   };
   return (
     <>
-      <IconButton onClick={() => markAllPostsRead()}>
-        <DoneAll />
-      </IconButton>
-      <IconButton onClick={() => refreshAll()}>
-        <Refresh />
-      </IconButton>
-      <Link to="/">
-        <IconButton>
-          <ViewList />
+      <ButtonGroup className={styles.buttonGroup}>
+        <IconButton onClick={() => markAllPostsRead()}>
+          <DoneAll />
         </IconButton>
-      </Link>
+        <IconButton onClick={() => refreshAll()}>
+          <Refresh />
+        </IconButton>
+        <Link to="/">
+          <IconButton>
+            <ViewList />
+          </IconButton>
+        </Link>
+      </ButtonGroup>
       <List>
         {feedsAndUnreadPosts.map(({ feed, unreadPosts }) => (
           <FeedListItem feed={feed} key={feed.id} unreadPosts={unreadPosts} />

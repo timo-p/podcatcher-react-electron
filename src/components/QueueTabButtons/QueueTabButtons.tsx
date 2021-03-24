@@ -19,7 +19,12 @@ export default function QueueTabButtons({
 
   return (
     <>
-      <ButtonGroup variant="contained" fullWidth color="primary">
+      <ButtonGroup
+        variant="contained"
+        fullWidth
+        color="primary"
+        className={styles.buttonGroup}
+      >
         <Button
           variant={leftOpen ? 'contained' : 'outlined'}
           onClick={() => setLeftOpen(true)}

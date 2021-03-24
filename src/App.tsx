@@ -30,12 +30,12 @@ export default function App({ store, persistor, history }: AppProps) {
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <PersistGate loading={null} persistor={persistor}>
-          <Grid container>
-            <Grid item xs={2}>
-              <div className={styles.sticky}>
+          <Grid container className={styles.gridContainer}>
+            <Grid item xs={2} className={styles.left}>
+              <div className={styles.menu}>
                 <Menu />
-                <Feeds />
               </div>
+              <Feeds />
             </Grid>
             <Grid item xs={8} className={styles.container}>
               <Switch>
@@ -46,10 +46,8 @@ export default function App({ store, persistor, history }: AppProps) {
                 <Route path="/" exact component={UnreadPosts} />
               </Switch>
             </Grid>
-            <Grid item xs={2}>
-              <div className={styles.sticky}>
-                <QueueTabButtons />
-              </div>
+            <Grid item xs={2} className={styles.right}>
+              <QueueTabButtons />
             </Grid>
           </Grid>
         </PersistGate>
