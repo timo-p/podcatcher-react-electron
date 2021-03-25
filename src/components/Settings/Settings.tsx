@@ -9,7 +9,9 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
+import { Replay } from '@material-ui/icons';
 import log from 'electron-log';
+import fs from 'fs';
 import React from 'react';
 import {
   IgnoreOlderThanUnit,
@@ -28,6 +30,26 @@ type SettingsProps = {
   removeAllDownloadQueueItems: () => void;
   removeAllRefreshQueueItems: () => void;
   removeAllDownloadRemoveQueueItems: () => void;
+};
+
+const getLogtail = (logFile: string, length: number): Promise<string> => {
+  if (fs.existsSync(logFile)) {
+    const tailLength = -1 * length;
+    return new Promise((resolve, reject) => {
+      let content = '';
+      const stream = fs.createReadStream(logFile, { encoding: 'utf8' });
+      stream.on('data', (chunk) => {
+        content = (content + chunk).slice(tailLength);
+      });
+      stream.on('end', () => {
+        resolve(content);
+      });
+      stream.on('error', (e) => {
+        reject(e);
+      });
+    });
+  }
+  return Promise.resolve('');
 };
 
 export default function Settings({
@@ -77,6 +99,20 @@ export default function Settings({
   const [debugToolsOpen, setDebugToolsOpen] = React.useState(false);
 
   const dumpState = () => log.info(JSON.stringify(state));
+
+  const logFile = log.transports.file.getFile().path;
+
+  const [logTail, setLogTail] = React.useState('');
+  const reloadLogFile = () =>
+    getLogtail(logFile, 10000)
+      .then(setLogTail)
+      .catch((e) => {
+        log.error(`Failed to read log file. Error: ${e}`);
+      });
+
+  React.useEffect(() => {
+    reloadLogFile();
+  }, []);
 
   return (
     <>
@@ -135,17 +171,39 @@ export default function Settings({
       </Section>
       <Collapse in={debugToolsOpen}>
         <Section>
-          <Typography>Logs directory</Typography>
+          <Typography>Log file</Typography>
           <TextField
             fullWidth
             disabled
             value={log.transports.file.getFile().path}
           />
         </Section>
+        <TextField
+          variant="outlined"
+          multiline
+          fullWidth
+          disabled
+          rows={10}
+          value={logTail}
+        />
         <Section>
-          <Button variant="contained" color="primary" onClick={dumpState}>
-            Dump state to log
-          </Button>
+          <Grid container spacing={1}>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={reloadLogFile}
+                startIcon={<Replay />}
+              >
+                Reload log file
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" color="primary" onClick={dumpState}>
+                Dump state to log
+              </Button>
+            </Grid>
+          </Grid>
         </Section>
         <Section>
           <Grid container spacing={1}>
