@@ -1,10 +1,10 @@
-import { List, Typography } from '@material-ui/core';
-import { Loop } from '@material-ui/icons';
+import { Button, Grid, List, Typography } from '@material-ui/core';
+import { ExpandMore } from '@material-ui/icons';
 import React from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import Post from '../../containers/Post';
 import { StateFeed } from '../../reducers/types';
 import { Post as PostType } from '../../types/types';
+import styles from './Posts.module.css';
 
 type PostsProps = {
   posts: PostType[];
@@ -13,6 +13,9 @@ type PostsProps = {
 
 export default function Posts({ posts, feeds }: PostsProps) {
   const [page, setPage] = React.useState(1);
+  React.useEffect(() => {
+    setPage(1);
+  }, [posts]);
 
   const loadMore = () => {
     setPage(page + 1);
@@ -21,22 +24,28 @@ export default function Posts({ posts, feeds }: PostsProps) {
   const postsSlice = posts.slice(0, page * 10);
 
   return (
-    <List>
-      <InfiniteScroll
-        dataLength={postsSlice.length}
-        next={loadMore}
-        hasMore={posts.length > postsSlice.length}
-        loader={<Loop />}
-        endMessage={
-          <Typography variant="subtitle2" align="center">
-            No more posts
-          </Typography>
-        }
-      >
+    <div className={styles.container}>
+      <List>
         {postsSlice.map((post) => (
           <Post post={post} feed={feeds[post.feedId]} key={post.id} />
         ))}
-      </InfiniteScroll>
-    </List>
+      </List>
+      <Grid container justify="center">
+        <Grid item>
+          {posts.length > postsSlice.length ? (
+            <Button
+              onClick={loadMore}
+              variant="contained"
+              color="primary"
+              startIcon={<ExpandMore />}
+            >
+              Load more
+            </Button>
+          ) : (
+            <Typography>No more posts</Typography>
+          )}
+        </Grid>
+      </Grid>
+    </div>
   );
 }
