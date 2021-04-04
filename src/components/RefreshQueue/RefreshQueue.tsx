@@ -1,14 +1,7 @@
-import {
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText,
-} from '@material-ui/core';
-import { Cached, HourglassEmpty, RemoveCircle } from '@material-ui/icons';
+import { List } from '@material-ui/core';
 import React from 'react';
 import { RefreshQueueItem } from '../../reducers/types';
+import QueueItem from '../QueueItem/QueueItem';
 
 export type RefreshQueueProps = {
   feeds: RefreshQueueItem[];
@@ -20,28 +13,18 @@ export default function RefreshQueue({
   removeFromRefreshQueue,
 }: RefreshQueueProps) {
   return (
-    <>
-      <List>
-        {feeds.map(({ url, title, status }) => (
-          <ListItem key={url}>
-            <ListItemIcon>
-              {status === 'queued' ? <HourglassEmpty /> : <Cached />}
-            </ListItemIcon>
-            <ListItemText primary={title || url} />
-            {status === 'queued' && (
-              <ListItemSecondaryAction>
-                <IconButton
-                  onClick={() => removeFromRefreshQueue(url)}
-                  edge="end"
-                  aria-label="delete"
-                >
-                  <RemoveCircle />
-                </IconButton>
-              </ListItemSecondaryAction>
-            )}
-          </ListItem>
-        ))}
-      </List>
-    </>
+    <List>
+      {feeds.map(({ url, title, status }) => (
+        <QueueItem
+          key={url}
+          title={title || url}
+          removeAction={
+            status === 'queued' ? () => removeFromRefreshQueue(url) : undefined
+          }
+          progress={status === 'processing' ? 0 : undefined}
+          speed={status === 'processing' ? 0 : undefined}
+        />
+      ))}
+    </List>
   );
 }

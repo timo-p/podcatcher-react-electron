@@ -1,18 +1,7 @@
-import {
-  Divider,
-  Grid,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from '@material-ui/core';
-import { RemoveCircle } from '@material-ui/icons';
+import { Divider, List } from '@material-ui/core';
 import React, { Fragment } from 'react';
 import { DownloadQueueItem } from '../../reducers/types';
-import formatSpeed from '../../utils/formatSpeed';
-import CircularProgressWithLabel from '../CircularProgressWithLabel/CircularProgressWithLabel';
-import styles from './DownloadQueue.module.css';
+import QueueItem from '../QueueItem/QueueItem';
 
 export type DownloadsProps = {
   downloads: DownloadQueueItem[];
@@ -28,23 +17,12 @@ export default function DownloadQueue({
       <List>
         {downloads.map(({ postId, title, status, progress, speed }) => (
           <Fragment key={postId}>
-            <ListItem className={styles.listItem}>
-              <ListItemText primary={title} className={styles.listItemText} />
-
-              <Grid container justify="center">
-                {status === 'downloading' && (
-                  <Grid className={styles.grid} container direction="column">
-                    <ListItemIcon>
-                      <CircularProgressWithLabel value={progress} />
-                    </ListItemIcon>
-                    {formatSpeed(speed)}
-                  </Grid>
-                )}
-                <IconButton onClick={() => addToDownloadRemoveQueue(postId)}>
-                  <RemoveCircle />
-                </IconButton>
-              </Grid>
-            </ListItem>
+            <QueueItem
+              title={title}
+              progress={status === 'downloading' ? progress : undefined}
+              speed={status === 'downloading' ? speed : undefined}
+              removeAction={() => addToDownloadRemoveQueue(postId)}
+            />
             <Divider light />
           </Fragment>
         ))}
