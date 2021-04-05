@@ -1,9 +1,9 @@
-import { IconButton, List, ButtonGroup } from '@material-ui/core';
+import { Button, List, ButtonGroup } from '@material-ui/core';
 import { ViewList } from '@material-ui/icons';
 import DoneAll from '@material-ui/icons/DoneAll';
 import Refresh from '@material-ui/icons/Refresh';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { RefreshQueueItem } from '../../reducers/types';
 import { Feed } from '../../types/types';
 import FeedListItem from './FeedListItem';
@@ -35,20 +35,19 @@ export default function Feeds({
     );
     processRefreshQueue();
   };
+  const history = useHistory();
   return (
     <>
       <ButtonGroup className={styles.buttonGroup}>
-        <IconButton onClick={() => markAllPostsRead()}>
+        <Button onClick={() => markAllPostsRead()}>
           <DoneAll />
-        </IconButton>
-        <IconButton onClick={() => refreshAll()}>
+        </Button>
+        <Button onClick={() => refreshAll()}>
           <Refresh />
-        </IconButton>
-        <Link to="/">
-          <IconButton>
-            <ViewList />
-          </IconButton>
-        </Link>
+        </Button>
+        <Button onClick={() => history.push('/')}>
+          <ViewList />
+        </Button>
       </ButtonGroup>
       <List>
         {feedsAndUnreadPosts.map(({ feed, unreadPosts }) => (
