@@ -75,6 +75,7 @@ export default function FeedPosts({
           posts={posts}
           feeds={{ [feed.id]: feed }}
           showFeedTitle={false}
+          displayId={feed.id}
         />
       )}
     </>

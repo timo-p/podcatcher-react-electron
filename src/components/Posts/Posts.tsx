@@ -10,13 +10,19 @@ type PostsProps = {
   posts: PostType[];
   feeds: StateFeed;
   showFeedTitle: boolean;
+  displayId: string;
 };
 
-export default function Posts({ posts, feeds, showFeedTitle }: PostsProps) {
+export default function Posts({
+  posts,
+  feeds,
+  showFeedTitle,
+  displayId,
+}: PostsProps) {
   const [page, setPage] = React.useState(1);
   React.useEffect(() => {
     setPage(1);
-  }, [posts]);
+  }, [displayId]);
 
   const loadMore = () => {
     setPage(page + 1);

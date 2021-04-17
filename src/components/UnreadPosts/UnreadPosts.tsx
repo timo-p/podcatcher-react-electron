@@ -57,7 +57,12 @@ export default function UnreadPosts({
         )}
       </Box>
       {showPosts.length > 0 && (
-        <Posts posts={showPosts} feeds={feeds} showFeedTitle />
+        <Posts
+          posts={showPosts}
+          feeds={feeds}
+          showFeedTitle
+          displayId="UNREAD_POSTS"
+        />
       )}
     </>
   );
