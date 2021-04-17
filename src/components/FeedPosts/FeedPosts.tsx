@@ -70,7 +70,13 @@ export default function FeedPosts({
       <IconButton onClick={() => removeFeedAndGoToHome()}>
         <Delete />
       </IconButton>
-      {feed && <Posts posts={posts} feeds={{ [feed.id]: feed }} />}
+      {feed && (
+        <Posts
+          posts={posts}
+          feeds={{ [feed.id]: feed }}
+          showFeedTitle={false}
+        />
+      )}
     </>
   );
 }

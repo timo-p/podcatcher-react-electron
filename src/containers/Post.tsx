@@ -17,7 +17,7 @@ type DispatchProps = Pick<
   'setPostIsRead' | 'addToDownloadQueue' | 'processDownloadQueue'
 >;
 
-type OwnProps = Pick<PostProps, 'post' | 'feed'>;
+type OwnProps = Pick<PostProps, 'post' | 'feed' | 'showFeedTitle'>;
 
 function mapStateToProps(state: PodcatcherStateType) {
   return {

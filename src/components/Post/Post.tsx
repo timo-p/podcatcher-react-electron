@@ -5,6 +5,7 @@ import {
   CardHeader,
   Collapse,
   IconButton,
+  Typography,
 } from '@material-ui/core';
 import { CloudDownload, CloudDone } from '@material-ui/icons';
 import CheckBoxOutlineBlankOutlined from '@material-ui/icons/CheckBoxOutlineBlankOutlined';
@@ -20,6 +21,7 @@ import styles from './Post.module.css';
 export type PostProps = {
   post: PostType;
   feed: Feed;
+  showFeedTitle: boolean;
   fileExistsOnDisk: boolean;
   setPostIsRead: (postId: PostType['id'], isRead: boolean) => void;
   addToDownloadQueue: (items: DownloadQueueItem[]) => void;
@@ -29,6 +31,8 @@ export type PostProps = {
 export default function Post(props: PostProps) {
   const {
     post,
+    feed,
+    showFeedTitle,
     fileExistsOnDisk,
     setPostIsRead,
     addToDownloadQueue,
@@ -56,7 +60,14 @@ export default function Post(props: PostProps) {
   return (
     <Card className={styles.card}>
       <CardHeader
-        title={post.title}
+        title={
+          <div>
+            {showFeedTitle && (
+              <Typography variant="caption">{feed.title}</Typography>
+            )}
+            <Typography>{post.title}</Typography>
+          </div>
+        }
         onClick={() => setIsExpanded(!isExpanded)}
         subheader={`${formatDistanceToNow(new Date(post.pubDate))} ago`}
         classes={{ title: styles.title }}

@@ -9,9 +9,10 @@ import styles from './Posts.module.css';
 type PostsProps = {
   posts: PostType[];
   feeds: StateFeed;
+  showFeedTitle: boolean;
 };
 
-export default function Posts({ posts, feeds }: PostsProps) {
+export default function Posts({ posts, feeds, showFeedTitle }: PostsProps) {
   const [page, setPage] = React.useState(1);
   React.useEffect(() => {
     setPage(1);
@@ -27,7 +28,12 @@ export default function Posts({ posts, feeds }: PostsProps) {
     <div className={styles.container}>
       <List>
         {postsSlice.map((post) => (
-          <Post post={post} feed={feeds[post.feedId]} key={post.id} />
+          <Post
+            post={post}
+            feed={feeds[post.feedId]}
+            key={post.id}
+            showFeedTitle={showFeedTitle}
+          />
         ))}
       </List>
       <Grid container justify="center">

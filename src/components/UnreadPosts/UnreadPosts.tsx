@@ -56,7 +56,9 @@ export default function UnreadPosts({
           </IconButton>
         )}
       </Box>
-      {showPosts.length > 0 && <Posts posts={showPosts} feeds={feeds} />}
+      {showPosts.length > 0 && (
+        <Posts posts={showPosts} feeds={feeds} showFeedTitle />
+      )}
     </>
   );
 }

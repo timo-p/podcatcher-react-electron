@@ -16,6 +16,7 @@ Primary.args = {
   setPostIsRead: () => {},
   addToDownloadQueue: () => {},
   processDownloadQueue: () => {},
+  showFeedTitle: false,
   post: {
     description:
       'Jeff and Christian welcome Daanish Syed from Someone Should Make This back to the show this week to discuss bringing defunct theme park rides to VR, Microsoft trying to buy Nintendo, a first person mod for Mortal Kombat, and more!The Playlist: Immortals: Fenix Rising, Super Meat Boy Forever, Oceanhorn: Chronos Dungeon There Is No Game Wrong Dimension, Wilmot’s WarehouseVR Talk: Supernatural, Pistol Whip 2089, Microsoft Flight Simulator, Tetris EffectParting Gifts!',
