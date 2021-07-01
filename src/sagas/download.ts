@@ -61,7 +61,12 @@ function* downloader(
           fs.mkdirSync(feedDir);
         }
         fs.renameSync(tmpFilename, filename);
-        updatedDownloadItem = { ...updatedDownloadItem, status: 'finished' };
+        updatedDownloadItem = {
+          ...updatedDownloadItem,
+          status: 'finished',
+          progress: 100,
+          speed: 0,
+        };
         resolve(true);
       }
     });
@@ -135,6 +140,9 @@ function* downloader(
   }
 }
 
+const getUnfinishedDownloadItemsFromQueue = (queue: DownloadQueueItem[]) =>
+  queue.filter(({ status }) => status !== 'finished');
+
 function* processQueue(): Generator<Effect, void, string> {
   try {
     const [
@@ -148,8 +156,9 @@ function* processQueue(): Generator<Effect, void, string> {
         feeds,
       }: PodcatcherStateType) => [selectedDownload, settings, feeds]
     )) as unknown) as [Download, Settings, StateFeed];
-    if (downloadState.queue.length > 0) {
-      const downloadQueueItem = downloadState.queue[0];
+    const toDownload = getUnfinishedDownloadItemsFromQueue(downloadState.queue);
+    if (toDownload.length > 0) {
+      const downloadQueueItem = toDownload[0];
       const itemFeed = feedsState[downloadQueueItem.feedId];
 
       ((yield call(
@@ -158,11 +167,6 @@ function* processQueue(): Generator<Effect, void, string> {
         settingsState.downloadDir,
         itemFeed.title
       )) as unknown) as Promise<boolean>;
-
-      yield put({
-        type: REMOVE_FROM_DOWNLOAD_QUEUE,
-        payload: downloadQueueItem.postId,
-      });
     }
   } catch (e) {
     log.error(`Download queue processing failed ${e}`);
@@ -178,7 +182,8 @@ function* startCheck() {
 export default function* download() {
   while (((yield take(PROCESS_DOWNLOAD_QUEUE)) as unknown) as TakeEffect) {
     const downloadQueue: DownloadQueueItem[] = yield select(
-      ({ download: { queue } }: PodcatcherStateType) => queue
+      ({ download: { queue } }: PodcatcherStateType) =>
+        getUnfinishedDownloadItemsFromQueue(queue)
     );
     if (downloadQueue.length > 0) {
       yield call(processQueue);

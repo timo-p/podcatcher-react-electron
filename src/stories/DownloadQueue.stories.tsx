@@ -72,14 +72,24 @@ Primary.args = {
   downloads: [
     {
       ...downloadItem,
+      postId: '1',
+      status: 'finished',
+      speed: 0,
+      progress: 100,
+    },
+    {
+      ...downloadItem,
+      postId: '2',
       status: 'downloading',
     },
     {
       ...downloadItem,
+      postId: '3',
       status: 'queued',
     },
     {
       ...downloadItem,
+      postId: '4',
       status: 'canceled',
     },
   ],

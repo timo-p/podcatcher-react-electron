@@ -6,11 +6,13 @@ import QueueItem from '../QueueItem/QueueItem';
 export type DownloadsProps = {
   downloads: DownloadQueueItem[];
   addToDownloadRemoveQueue: (postId: string) => void;
+  removeFromDownloadQueue: (postId: string) => void;
 };
 
 export default function DownloadQueue({
   downloads,
   addToDownloadRemoveQueue,
+  removeFromDownloadQueue,
 }: DownloadsProps) {
   return (
     <>
@@ -19,9 +21,18 @@ export default function DownloadQueue({
           <Fragment key={postId}>
             <QueueItem
               title={title}
-              progress={status === 'downloading' ? progress : undefined}
+              status={status}
+              progress={
+                ['downloading', 'finished'].includes(status)
+                  ? progress
+                  : undefined
+              }
               speed={status === 'downloading' ? speed : undefined}
-              removeAction={() => addToDownloadRemoveQueue(postId)}
+              removeAction={
+                status === 'finished'
+                  ? () => removeFromDownloadQueue(postId)
+                  : () => addToDownloadRemoveQueue(postId)
+              }
             />
             <Divider light />
           </Fragment>
